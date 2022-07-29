@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bolsadeideas.springboot.app.models.dao.IClienteDao;
+import com.bolsadeideas.springboot.app.models.dao.IClientesDao;
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
 @Service
 public class ClienteServiceImplements implements IClienteService{
 
 	@Autowired
-	private IClienteDao clienteDao;
+	private IClientesDao clienteDao;
 	
 	@Override
 	@Transactional(readOnly = true)
 	public List<Cliente> finAll() {
-		return clienteDao.finAll();
+		return (List<Cliente>) clienteDao.findAll();
 	}
 
 	@Override
@@ -31,13 +31,13 @@ public class ClienteServiceImplements implements IClienteService{
 	@Override
 	@Transactional(readOnly = true)
 	public Cliente findOne(Long id) {
-		return clienteDao.findOne(id);
+		return clienteDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		clienteDao.delete(id);		
+		clienteDao.deleteById(id);		
 	}
 
 }
