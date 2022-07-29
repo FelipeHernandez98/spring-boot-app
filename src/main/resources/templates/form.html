@@ -39,7 +39,7 @@
 				<input class="form-control" type="text" th:field="*{createAt}" />
 				<small class="form-text text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
 			</div>
-			<div><input class="btn btn-primary" type="submit" value="Crear" />
+			<div><input class="btn btn-primary" type="submit" th:value="${boton}" />
 			</div>
 		</div>
 		<input type="hidden" th:field="*{id}" />
