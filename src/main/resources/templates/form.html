@@ -18,23 +18,30 @@
 
 	<form th:action="@{/form}" th:object="${cliente}" method="post">
 
-		<table class="table table-striped">
-			<tr>
-				<td>Nombre</td>
-				<td><input class="form-control" type="text" th:field="*{nombre}" /></td>
-			</tr>
-			<tr>
-				<td>Apellido</td>
-				<td><input class="form-control" type="text" th:field="*{apellido}" /></td>
-			</tr>
-			<tr>
-				<td>Email</td>
-				<td><input class="form-control" type="email" th:field="*{email}" /></td>
-			</tr>
-			<tr>
-				<td><input class="btn btn-primary" type="submit" value="Crear" /></td>
-			</tr>
-		</table>
+		<div class="mb-3">
+			<div class="form-group">
+				<label>Nombre</label>
+				<input class="form-control" type="text" th:field="*{nombre}" />
+				<small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+			</div>
+			<div class="form-group">
+				<label>Apellido</label>
+				<input class="form-control" type="text" th:field="*{apellido}" />
+				<small class="form-text text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></small>
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input class="form-control" type="text" th:field="*{email}" />
+				<small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+			</div>
+			<div class="form-group">
+				<label>Frecha creacion</label>
+				<input class="form-control" type="text" th:field="*{createAt}" />
+				<small class="form-text text-danger" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+			</div>
+			<div><input class="btn btn-primary" type="submit" value="Crear" />
+			</div>
+		</div>
 		<input type="hidden" th:field="*{id}" />
 	</form>
 </div>
