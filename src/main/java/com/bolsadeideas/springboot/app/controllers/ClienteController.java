@@ -70,8 +70,8 @@ public class ClienteController {
 		}
 		
 		if(!foto.isEmpty()) {
-			Path directorioRecursos = Paths.get("src//main//resources//static//uploads");//Se defgine la ruta de la carpeta
-			String rootPath = directorioRecursos.toFile().getAbsolutePath();//Se saca el root para guardar archivos en esa carpeta
+			
+			String rootPath = "C://Temp//uploads";//Se saca el root para guardar archivos en esa carpeta
 			try {
 				byte[] bytes = foto.getBytes();//Se pregunta por el tamaño del archivo en este caso la foto
 				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());//Se crea la ruta completa
