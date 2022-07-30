@@ -42,10 +42,4 @@ public class ClienteServiceImplements implements IClienteService{
 		clienteDao.deleteById(id);		
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Page<Cliente> finAll(Pageable pageable) {
-		return clienteDao.findAll(pageable);
-	}
-
 }

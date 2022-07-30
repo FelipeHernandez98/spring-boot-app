@@ -1,13 +1,14 @@
 package com.bolsadeideas.springboot.app.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
@@ -30,16 +32,13 @@ public class ClienteController {
 	private IClienteService clienteService;
 	
 	@RequestMapping(value="/listar", method=RequestMethod.GET)
-	public String Listar(@RequestParam(name="page", defaultValue="0") int page,Model model) {
-		
-		Pageable pageRequest = PageRequest.of(page, 4);
-		Page<Cliente> cliente = clienteService.finAll(pageRequest);
+	public String Listar(Model model) {
 		model.addAttribute("titulo", "Listado de clientes");
-		model.addAttribute("clientes", cliente);
+		model.addAttribute("clientes", clienteService.finAll());
 		
 		return "listar";
 	}
-	
+	 
 	@RequestMapping(value="/form")
 	public String crear(Map<String, Object> model) {
 		Cliente cliente = new Cliente();
@@ -50,12 +49,26 @@ public class ClienteController {
 	}
 	
 	@RequestMapping(value="/form", method=RequestMethod.POST)
-	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash ,SessionStatus status) {
+	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, @RequestParam("file") MultipartFile foto ,RedirectAttributes flash ,SessionStatus status) {
 		
 		if(result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario crear cliente");
 			return "form";
 		}
+		
+		if(!foto.isEmpty()) {
+			Path directorioRecursos = Paths.get("src//main//resources//static//uploads");//Se defgine la ruta de la carpeta
+			String rootPath = directorioRecursos.toFile().getAbsolutePath();//Se saca el root para guardar archivos en esa carpeta
+			try {
+				byte[] bytes = foto.getBytes();//Se pregunta por el tamaño del archivo en este caso la foto
+				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());//Se crea la ruta completa
+				Files.write(rutaCompleta, bytes);//Y se escribe el archivo en la carpeta
+				cliente.setFoto(foto.getOriginalFilename());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		String mensajeFlash = (cliente.getId() != null)? "Cliente editado" : "Cliente creado";
 		
 		clienteService.save(cliente);
