@@ -1,6 +1,7 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class Factura implements Serializable {
 	@JoinColumn(name="factura_id")//Se coloca para generar el factura_id en facturas_item
 	private List<ItemFactura> items;
 	
+	
+	public Factura() {
+		this.items = new ArrayList<ItemFactura>();
+	}
 
 	public Long getId() {
 		return id;
