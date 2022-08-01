@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity(name="facturas_item")
+@Entity(name="facturas_items")
 public class ItemFactura implements Serializable{
 
 	private static final long serialVersionUID = 1L;
