@@ -6,6 +6,9 @@
 	<div class="container py-4">
 		<div class="card bg-light">
 			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-title p-4">
+				<a class="btn btn-warning btn-xs" th:href="@{/factura/form/} + ${cliente.id}">Crear factura</a>
+			</div>
 			<div class="card-body">
 				<img th:if="${#strings.length(cliente.foto) > 0}" class="img-thumbnail rounded float-left"
 					style="max-width: 25%;" th:src="@{'/uploads/' + ${cliente.foto}}"  />
