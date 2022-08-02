@@ -15,9 +15,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="facturas")
@@ -30,14 +34,17 @@ public class Factura implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotEmpty
 	private String descripcion;
 	
 	private String observacion;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="create_at")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date createAt;
 	
+	@PrePersist
 	public void prePersist() {
 		createAt = new Date();
 	}
