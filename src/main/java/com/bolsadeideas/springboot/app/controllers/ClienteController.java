@@ -40,7 +40,7 @@ public class ClienteController {
 			 return "redirect:/listar";
 		 }
 		 model.put("cliente", cliente);
-		 model.put("titulo", "Detalle cliente: " +cliente.getNombre() + cliente.getApellido());
+		 model.put("titulo", "Detalle cliente: " +cliente.getNombre() + ' ' + cliente.getApellido());
 		return "ver";
 	}
 	

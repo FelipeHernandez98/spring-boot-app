@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bolsadeideas.springboot.app.models.dao.IClientesDao;
+import com.bolsadeideas.springboot.app.models.dao.IProductoDao;
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
+import com.bolsadeideas.springboot.app.models.entity.Producto;
 
 @Service
 public class ClienteServiceImplements implements IClienteService{
 
 	@Autowired
 	private IClientesDao clienteDao;
+	
+	@Autowired
+	private IProductoDao productoDao;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -40,6 +45,12 @@ public class ClienteServiceImplements implements IClienteService{
 	@Transactional
 	public void delete(Long id) {
 		clienteDao.deleteById(id);		
+	}
+
+	@Override
+	public List<Producto> findByName(String term) {
+		
+		return productoDao.findByName(term);
 	}
 
 }
