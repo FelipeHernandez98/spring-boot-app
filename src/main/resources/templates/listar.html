@@ -4,7 +4,7 @@
 <body>
 	<header th:replace="layout/layout :: header"></header>
 	<div class="container mt-5">
-		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<h1 class="text-primary" th:text="${titulo} + ' (Bienvenido: ' +  ${nombre} +')'"></h1>
 		<hr>
 		<a sec:authorize="hasRole('ADMIN')" th:href="@{/form}">Creal cliente</a>
 		<table class="table table-striped">

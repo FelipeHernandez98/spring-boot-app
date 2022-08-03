@@ -4,11 +4,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Security;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +52,12 @@ public class ClienteController {
 	}
 	
 	@RequestMapping(value={"/listar", "/", ""}, method=RequestMethod.GET)
-	public String Listar(Model model) {
+	public String Listar(Model model, Authentication authentication) {
+		
+		if(authentication != null ) {
+			model.addAttribute("nombre", authentication.getName());
+		}
+				
 		model.addAttribute("titulo", "Listado de clientes");
 		model.addAttribute("clientes", clienteService.finAll());
 		
@@ -120,5 +132,31 @@ public class ClienteController {
 			flash.addFlashAttribute("warning", "Cliente eliminado exitosamente!");
 		}
 		return "redirect:/listar";
+	}
+	
+	
+	private boolean hasRole(String role) {
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context ==null) {
+			return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+		
+		for(GrantedAuthority authority: authorities) {
+			if(role.equals(authority.getAuthority())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
