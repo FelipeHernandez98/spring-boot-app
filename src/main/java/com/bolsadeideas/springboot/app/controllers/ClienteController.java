@@ -44,7 +44,7 @@ public class ClienteController {
 		return "ver";
 	}
 	
-	@RequestMapping(value="/listar", method=RequestMethod.GET)
+	@RequestMapping(value={"/listar", "/", ""}, method=RequestMethod.GET)
 	public String Listar(Model model) {
 		model.addAttribute("titulo", "Listado de clientes");
 		model.addAttribute("clientes", clienteService.finAll());
