@@ -13,11 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.bolsadeideas.springboot.app.models.service.JpaUserDetailService;
+
 @Configuration
 public class SpringSecurityConfig{
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private JpaUserDetailService userDetailService;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -58,10 +63,13 @@ public class SpringSecurityConfig{
 	@Autowired
 	public void ConfigureGlobal(AuthenticationManagerBuilder build) throws Exception{
 		
-		build.jdbcAuthentication()
-		.dataSource(dataSource)
-		.passwordEncoder(passwordEncoder)
-		.usersByUsernameQuery("select username, password, enabled from usuarios where username=?")
-		.authoritiesByUsernameQuery("select u.username, a.authority from authorities a inner join usuarios u on (a.user_id=u.id) where u.username=?");
+		build.userDetailsService(userDetailService)
+		.passwordEncoder(passwordEncoder);
+		
+//		build.jdbcAuthentication()
+//		.dataSource(dataSource)
+//		.passwordEncoder(passwordEncoder)
+//		.usersByUsernameQuery("select username, password, enabled from usuarios where username=?")
+//		.authoritiesByUsernameQuery("select u.username, a.authority from authorities a inner join usuarios u on (a.user_id=u.id) where u.username=?");
 	}
 }
