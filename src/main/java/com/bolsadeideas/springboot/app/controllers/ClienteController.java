@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Security;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,6 +52,7 @@ public class ClienteController {
 		 model.put("titulo", "Detalle cliente: " +cliente.getNombre() + ' ' + cliente.getApellido());
 		return "ver";
 	}
+	
 	
 	@RequestMapping(value={"/listar", "/", ""}, method=RequestMethod.GET)
 	public String Listar(Model model, Authentication authentication) {

@@ -23,6 +23,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="facturas")
 public class Factura implements Serializable {
@@ -52,6 +54,7 @@ public class Factura implements Serializable {
 	//Muchas facturas un cliente
 	//Many es la primera que hace referencia a la clase donde estamos, siempre va de primero la clase en la que estamos
 	@ManyToOne(fetch=FetchType.LAZY) 
+	@JsonBackReference
 	private Cliente cliente;
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)

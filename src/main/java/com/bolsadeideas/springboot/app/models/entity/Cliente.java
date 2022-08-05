@@ -23,6 +23,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "clientes")
 public class Cliente implements Serializable {
@@ -52,6 +55,7 @@ public class Cliente implements Serializable {
 	//En este caso un cliente puede tener muchas factura || Ademas se mapea con cliente que es el 
 	//nombre del atributo en la clase Factura
 	@OneToMany(mappedBy="cliente",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<Factura> facturas; //La funcion fetch lo que hace es traer las facturas de la tabla facturas
 									//cada vez que se llama el metodo getFacturas 
 	
